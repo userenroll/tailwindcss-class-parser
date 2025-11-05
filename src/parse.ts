@@ -5,7 +5,7 @@ import { parseVariant } from "./parse-variant";
 import { inferDataType } from "./utils/infer-data-type";
 import { getValue, type Value } from "./utils/value";
 import { getTailwindTheme } from "./theme";
-import { CalculateHexFromString } from "./utils/calculate-hex-from-string";
+import { calculateHexFromString } from "./utils/calculate-hex-from-string";
 import { findTailwindColorFromHex } from "./utils/find-tailwind-color-from-hex";
 import { buildModifier } from "./utils/build-modifier";
 import { isColor } from "./utils/is-color";
@@ -115,7 +115,7 @@ export const parse = (input: string, config?: any): AST | Error => {
         let associatedPluginByType = availablePlugins!.find(plugin => plugin.type === unitType)
 
         if (unitType === "color") {
-            const color = CalculateHexFromString(arbitraryValue)
+            const color = calculateHexFromString(arbitraryValue)
             if (!color) {
                 return {
                     root: base,

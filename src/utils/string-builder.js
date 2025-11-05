@@ -52,7 +52,7 @@ export class StringBuilder {
     }
 
     static makeArbitrary(input) {
-        if (input.includes('url') || /[0-9]/.test(input) && (!input.includes('-') || !input.indexOf('-'))) {
+        if (input.includes('(') || /[0-9]/.test(input) && (!input.includes('-') || !input.indexOf('-'))) {
             return `[${StringBuilder.makeInputArbitraryFormat(input)}]`
         }
         return input

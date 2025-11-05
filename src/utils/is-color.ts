@@ -200,17 +200,10 @@ const NAMED_COLORS = new Set([
 
 const IS_COLOR_FN = /^(rgba?|hsla?|hwb|color|(ok)?(lab|lch)|light-dark|color-mix)\(/i
 
-export function isColor(value: string, theme?: any): boolean {
+export function isColor(value: string): boolean {
     if (!value) return false
 
-    let isThemeColor = false
-
-    if (theme) {
-        const [trueValue,] = segment(value, '/')
-        isThemeColor = !!get(theme.colors as any, trueValue.split('-').join('.'))
-    }
-
     return (
-        value.charCodeAt(0) === HASH || IS_COLOR_FN.test(value) || NAMED_COLORS.has(value.toLowerCase()) || isThemeColor
+        value.charCodeAt(0) === HASH || IS_COLOR_FN.test(value) || NAMED_COLORS.has(value.toLowerCase())
     )
 }

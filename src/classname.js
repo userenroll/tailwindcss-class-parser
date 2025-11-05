@@ -1,8 +1,6 @@
-import get from 'lodash/get'
-
 import { PluginNotFoundException } from './exceptions/plugin-not-found-exception'
 import { functionalPlugins, namedPlugins } from './plugins'
-import { getTailwindTheme } from './theme'
+
 import { buildModifier } from './utils/build-modifier'
 import { calculateHexFromString } from './utils/calculate-hex-from-string'
 import { findTailwindColorFromHex } from './utils/find-tailwind-color-from-hex'
@@ -11,8 +9,11 @@ import { StringBuilder } from './utils/string-builder'
 
 export const EMPTY_CLASSNAME = ''
 
-export const classname = (ast, config) => {
-  const theme = getTailwindTheme(config)
+export const classname = (ast) => {
+  if ([null, undefined, ''].includes(ast.value)) {
+    return EMPTY_CLASSNAME
+  }
+
   const stringBuilder = new StringBuilder()
   let negative = ast.negative || false
   stringBuilder.appendVariants(...ast.variants || [])
@@ -40,18 +41,10 @@ export const classname = (ast, config) => {
   }
 
   stringBuilder.addRoot(root)
-  if (isColor(ast.value, theme)) {
+  if (isColor(ast.value)) {
     const matchedPlugin = possiblePlugins.find(plugin => plugin.type === 'color')
     if (!matchedPlugin) {
       throw new PluginNotFoundException(ast.property)
-    }
-
-    const tailwindThemeColor = get(theme[matchedPlugin.scaleKey || 'colors'], ast.value.split('-').join('.'))
-    if (tailwindThemeColor && typeof tailwindThemeColor !== 'object') {
-      return stringBuilder
-        .appendModifier(buildModifier(ast.modifier, theme.opacity))
-        .addValue(ast.value)
-        .toString()
     }
 
     const isRgba = ast.value.includes('rgba')
@@ -67,9 +60,9 @@ export const classname = (ast, config) => {
     }
 
     return stringBuilder
-      .appendModifier(buildModifier(color.alpha || ast.modifier, theme.opacity))
+      .appendModifier(buildModifier(color.alpha || ast.modifier))
       .addValue(
-        findTailwindColorFromHex(color.hex, theme[matchedPlugin.scaleKey || 'colors']) || StringBuilder.makeArbitrary(color.hex),
+        findTailwindColorFromHex(color.hex) || StringBuilder.makeArbitrary(color.hex),
       )
       .toString()
   }
@@ -96,7 +89,7 @@ const findTailwindValueByUnit = (unit, matchedPlugin = {}) => {
     return undefined
   }
 
-  if (matchedPlugin.type === 'image') {
+  if (matchedPlugin.type === 'image' && !unit.includes('url')) {
     unit = `url(${unit})`
   }
 
