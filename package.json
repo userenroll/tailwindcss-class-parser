@@ -1,5 +1,5 @@
 {
-  "name": "@xengine/tailwindcss-class-parser",
+  "name": "inan-tailwind-parser",
   "private": false,
   "version": "1.1.20",
   "type": "module",

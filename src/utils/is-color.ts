@@ -1,5 +1,4 @@
-import type {CustomThemeConfig} from "tailwindcss/types/config"
-import {segment} from "./segment";
+import { segment } from "./segment";
 import get from "lodash/get";
 
 const HASH = 0x23
@@ -201,7 +200,7 @@ const NAMED_COLORS = new Set([
 
 const IS_COLOR_FN = /^(rgba?|hsla?|hwb|color|(ok)?(lab|lch)|light-dark|color-mix)\(/i
 
-export function isColor(value: string, theme?: CustomThemeConfig): boolean {
+export function isColor(value: string, theme?: any): boolean {
     if (!value) return false
 
     let isThemeColor = false

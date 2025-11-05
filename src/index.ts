@@ -1,4 +1,4 @@
-import {parse} from "./parse";
-import {classname} from "./classname";
+import { classname } from './classname';
+import { parse } from './parse';
 
-export {parse, classname}
+export { parse, classname }

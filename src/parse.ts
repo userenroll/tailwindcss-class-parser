@@ -1,16 +1,15 @@
-import {segment} from "./utils/segment";
-import {findRoot} from "./find-root";
-import {type FunctionalPlugin, functionalPlugins, namedPlugins, type Variant} from "./plugins";
-import {parseVariant} from "./parse-variant";
-import {inferDataType} from "./utils/infer-data-type";
-import {getValue, type Value} from "./utils/value";
-import type {Config, ScreensConfig} from "tailwindcss/types/config";
-import {getTailwindTheme} from "./theme";
-import {CalculateHexFromString} from "./utils/calculate-hex-from-string";
-import {findTailwindColorFromHex} from "./utils/find-tailwind-color-from-hex";
-import {buildModifier} from "./utils/build-modifier";
-import {isColor} from "./utils/is-color";
-import {decodeArbitraryValue} from "./utils/decodeArbitraryValue";
+import { segment } from "./utils/segment";
+import { findRoot } from "./find-root";
+import { type FunctionalPlugin, functionalPlugins, namedPlugins, type Variant } from "./plugins";
+import { parseVariant } from "./parse-variant";
+import { inferDataType } from "./utils/infer-data-type";
+import { getValue, type Value } from "./utils/value";
+import { getTailwindTheme } from "./theme";
+import { CalculateHexFromString } from "./utils/calculate-hex-from-string";
+import { findTailwindColorFromHex } from "./utils/find-tailwind-color-from-hex";
+import { buildModifier } from "./utils/build-modifier";
+import { isColor } from "./utils/is-color";
+import { decodeArbitraryValue } from "./utils/decodeArbitraryValue";
 
 export type State = {
     important: boolean
@@ -36,8 +35,8 @@ export type Error = {
     message: string
 }
 
-export const parse = (input: string, config?: Config): AST | Error => {
-    if(!input) {
+export const parse = (input: string, config?: any): AST | Error => {
+    if (!input) {
         return {
             root: "",
             kind: "error",
@@ -56,7 +55,7 @@ export const parse = (input: string, config?: Config): AST | Error => {
     let parsedCandidateVariants: Variant[] = []
 
     for (let i = variants.length - 1; i >= 0; --i) {
-        let parsedVariant = parseVariant(variants[i], theme.screens as ScreensConfig)
+        let parsedVariant = parseVariant(variants[i], theme.screens as any)
         if (parsedVariant !== null)
             parsedCandidateVariants.push(parsedVariant)
     }
@@ -112,12 +111,12 @@ export const parse = (input: string, config?: Config): AST | Error => {
 
     if (valueWithoutModifier && valueWithoutModifier[0] === '[' && valueWithoutModifier[valueWithoutModifier.length - 1] === ']') {
         let arbitraryValue = valueWithoutModifier.slice(1, -1)
-        const unitType = inferDataType(arbitraryValue, [...availablePlugins.values()].map(({type}) => type))
+        const unitType = inferDataType(arbitraryValue, [...availablePlugins.values()].map(({ type }) => type))
         let associatedPluginByType = availablePlugins!.find(plugin => plugin.type === unitType)
 
         if (unitType === "color") {
             const color = CalculateHexFromString(arbitraryValue)
-            if(!color){
+            if (!color) {
                 return {
                     root: base,
                     kind: "error",
@@ -125,10 +124,10 @@ export const parse = (input: string, config?: Config): AST | Error => {
                 }
             }
             valueWithoutModifier = findTailwindColorFromHex(color.hex, theme[associatedPluginByType?.scaleKey || "colors"]) || color.hex
-        }else{
+        } else {
             //It's not color, but it's still an arbitrary. We are just going to do parse it
             //The result might not be correct, but it's better than nothing and even tailwind will parse it anyway
-            if(availablePlugins.length > 0){
+            if (availablePlugins.length > 0) {
                 associatedPluginByType = availablePlugins.find(x => x.type === unitType) || availablePlugins.find(x => x.type !== "color")
             }
         }
@@ -159,7 +158,7 @@ export const parse = (input: string, config?: Config): AST | Error => {
     }
 
     //check value against each scale of available plugins
-    let matchedPlugin = availablePlugins.find(({scaleKey}) => value.split('-')[0] in theme[scaleKey] || valueWithoutModifier in theme[scaleKey])
+    let matchedPlugin = availablePlugins.find(({ scaleKey }) => value.split('-')[0] in theme[scaleKey] || valueWithoutModifier in theme[scaleKey])
     if (!matchedPlugin) {
         return {
             root: base,

@@ -1,8 +1,7 @@
-import {decodeArbitraryValue} from "./utils/decodeArbitraryValue";
-import {type Variant, variants} from "./plugins";
-import type {ScreensConfig} from "tailwindcss/types/config";
+import { decodeArbitraryValue } from "./utils/decodeArbitraryValue";
+import { type Variant, variants } from "./plugins";
 
-export function parseVariant(variant: string, screens: ScreensConfig): Variant  {
+export function parseVariant(variant: string, screens: any): Variant {
     if (variant[0] === '[' && variant[variant.length - 1] === ']') {
         let arbitraryValue = variant.slice(1, -1)
 
@@ -19,7 +18,7 @@ export function parseVariant(variant: string, screens: ScreensConfig): Variant  
         }
     }
 
-    if(Object.keys(screens).includes(variant)) {
+    if (Object.keys(screens).includes(variant)) {
         return {
             kind: 'named',
             type: 'media',
