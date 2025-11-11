@@ -1,15 +1,13 @@
 {
-  "name": "tailwind-parser",
+  "name": "tailwindcss-class-parser",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest"
+    "preview": "vite preview"
   },
-  "types": "./dist/tailwindcss-class-parser.es.d.ts",
   "main": "./dist/tailwindcss-class-parser.umd.cjs",
   "module": "./dist/tailwindcss-class-parser.js",
   "exports": {
@@ -22,11 +20,7 @@
     "tailwindcss": "*"
   },
   "devDependencies": {
-    "@types/node": "^22.7.7",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.9",
-    "vite-plugin-dts": "^4.2.4",
-    "vitest": "^2.1.3"
+    "vite": "^5.4.9"
   },
   "publishConfig": {
     "access": "public"
