@@ -1,18 +1,8 @@
 {
   "name": "tailwind-parser",
-  "private": false,
-  "version": "1.1.20",
+  "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "author": "T. Cem Yılmaz <posta@cemyilmaz.me>",
-  "license": "WTFPL",
-  "keywords": [
-    "tailwindcss",
-    "parser",
-    "utils",
-    "ast",
-    "tailwind js object"
-  ],
-  "homepage": "https://github.com/XEngine/tailwindcss-class-parser",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -32,9 +22,7 @@
     "tailwindcss": "*"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.12",
     "@types/node": "^22.7.7",
-    "lodash": "^4.17.21",
     "typescript": "^5.6.3",
     "vite": "^5.4.9",
     "vite-plugin-dts": "^4.2.4",

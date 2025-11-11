@@ -1,6 +1,6 @@
 import { colord } from 'colord';
 
-export const calculateHexFromString = (input: string): { hex: string, alpha: string | undefined } | undefined => {
+export const calculateHexFromString = input => {
     const color = colord(input)
     const alpha = color.alpha()
 

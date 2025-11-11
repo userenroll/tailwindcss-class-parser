@@ -1,10 +1,6 @@
-import { segment } from "./segment";
-import get from "lodash/get";
-
 const HASH = 0x23
 
 const NAMED_COLORS = new Set([
-    // CSS Level 1 colors
     'black',
     'silver',
     'gray',
@@ -22,7 +18,6 @@ const NAMED_COLORS = new Set([
     'teal',
     'aqua',
 
-    // CSS Level 2/3 colors
     'aliceblue',
     'antiquewhite',
     'aqua',
@@ -172,11 +167,9 @@ const NAMED_COLORS = new Set([
     'yellow',
     'yellowgreen',
 
-    // Keywords
     'transparent',
     'currentcolor',
 
-    // System colors
     'canvas',
     'canvastext',
     'linktext',
@@ -200,7 +193,7 @@ const NAMED_COLORS = new Set([
 
 const IS_COLOR_FN = /^(rgba?|hsla?|hwb|color|(ok)?(lab|lch)|light-dark|color-mix)\(/i
 
-export function isColor(value: string): boolean {
+export function isColor(value) {
     if (!value) return false
 
     return (

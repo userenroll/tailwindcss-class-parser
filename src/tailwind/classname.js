@@ -1,15 +1,11 @@
 import { PluginNotFoundException } from './exceptions/plugin-not-found-exception'
 import { functionalPlugins, namedPlugins } from './plugins'
-
-import { buildModifier } from './utils/build-modifier'
-import { calculateHexFromString } from './utils/calculate-hex-from-string'
-import { findTailwindColorFromHex } from './utils/find-tailwind-color-from-hex'
 import { isColor } from './utils/is-color'
 import { StringBuilder } from './utils/string-builder'
 
 export const EMPTY_CLASSNAME = ''
 
-export const classname = (ast) => {
+export const classname = ast => {
   if ([null, undefined, ''].includes(ast.value)) {
     return EMPTY_CLASSNAME
   }
@@ -25,6 +21,12 @@ export const classname = (ast) => {
   if (ast.value[0] === '-') {
     ast.value = ast.value.slice(1)
     negative = true
+  }
+
+  if (ast.skipParse) {
+    return stringBuilder
+      .addValue(ast.value)
+      .toString()
   }
 
   const [namedPluginClassName] = [...namedPlugins.entries()]
@@ -54,16 +56,8 @@ export const classname = (ast) => {
         .toString()
     }
 
-    const color = calculateHexFromString(ast.value)
-    if (!color) {
-      return EMPTY_CLASSNAME
-    }
-
     return stringBuilder
-      .appendModifier(buildModifier(color.alpha || ast.modifier))
-      .addValue(
-        findTailwindColorFromHex(color.hex) || StringBuilder.makeArbitrary(color.hex),
-      )
+      .addValue(ast.value)
       .toString()
   }
 
