@@ -1,2 +1,2 @@
-export { parse, classname } from './tailwind/index.js'
-
+export { parse } from './parse.js'
+export { classname } from './classname.js'

@@ -1,19 +1,13 @@
 {
   "name": "tailwindcss-class-parser",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "main": "./dist/tailwindcss-class-parser.umd.cjs",
-  "module": "./dist/tailwindcss-class-parser.js",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
   "exports": {
     ".": {
-      "import": "./dist/tailwindcss-class-parser.js",
-      "require": "./dist/tailwindcss-class-parser.umd.cjs"
+      "import": "./src/index.js",
+      "require": "./src/index.js"
     }
   },
   "peerDependencies": {
@@ -21,9 +15,6 @@
   },
   "devDependencies": {
     "vite": "^5.4.9"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "dependencies": {
     "colord": "^2.9.3"
